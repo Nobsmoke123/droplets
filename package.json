@@ -9,7 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@langchain/openai": "^1.2.12",
+    "@langchain/textsplitters": "^1.0.1",
+    "@supabase/supabase-js": "^2.98.0",
+    "langchain": "^1.2.30",
+    "mammoth": "^1.11.0",
     "next": "16.1.6",
+    "openai": "^6.27.0",
+    "pdf2json": "^4.0.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
