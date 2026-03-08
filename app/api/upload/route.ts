@@ -31,20 +31,19 @@ async function extractTextFromFile(file: File): Promise<string> {
   if (fileName.endsWith(".pdf")) {
     const PDFParser = (await import("pdf2json")).default;
     return new Promise((resolve, reject) => {
-      const pdf_parser = new (PDFParser as any)(null, true);
-
-      pdf_parser.on("pdfParser_dataError", (err: any) =>
+      const pdfParser = new (PDFParser as any)(null, true);
+      pdfParser.on("pdfParser_dataError", (err: any) =>
         reject(new Error(`PDF parsing error: ${err.parserError}`)),
       );
-
-      pdf_parser.on("pdfParser_dataReady", (pdfData: any) => {
+      pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
         try {
           let fullText = "";
-          pdfData.pages?.forEach((page: any) =>
+          pdfData.Pages?.forEach((page: any) =>
             page.Texts?.forEach((text: any) =>
-              text.R?.forEach((r: any) => {
-                r.T && (fullText += safeDecodeURIComponent(r.T) + " ");
-              }),
+              text.R?.forEach(
+                (r: any) =>
+                  r.T && (fullText += safeDecodeURIComponent(r.T) + " "),
+              ),
             ),
           );
           resolve(fullText.trim());
@@ -52,7 +51,7 @@ async function extractTextFromFile(file: File): Promise<string> {
           reject(new Error(`Error extracting text: ${error.message}`));
         }
       });
-      pdf_parser.parseBuffer(buffer);
+      pdfParser.parseBuffer(buffer);
     });
   } else if (fileName.endsWith(".docx")) {
     const result = await mammoth.extractRawText({ buffer });
@@ -80,7 +79,7 @@ export async function POST(req: Request) {
     // Upload file to Supabase Storage
     const fileBuffer = Buffer.from(await file.arrayBuffer());
     const { error: storageError } = await supabaseStorage.storage
-      .from("documents")
+      .from("droplets")
       .upload(filePath, fileBuffer, {
         contentType: file.type || "application/octet-stream",
         upsert: false,
