@@ -43,7 +43,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navigation />
       <main className="max-w-4xl mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-6">RAG Search</h1>
+        <h1 className="text-3xl font-bold mb-6">Droplets</h1>
 
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6 shadow-sm mb-6">
           <textarea
